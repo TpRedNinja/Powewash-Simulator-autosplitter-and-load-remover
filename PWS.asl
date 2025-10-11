@@ -23,8 +23,6 @@ update
 {
     vars.Helper.Update();
     vars.Helper.MapPointers();
-    if(current.Stars > 0)
-        print("stars: " + current.Stars);
 }
 
 start
@@ -48,4 +46,5 @@ split
 isLoading
 {
     return current.Loading;
+
 }
