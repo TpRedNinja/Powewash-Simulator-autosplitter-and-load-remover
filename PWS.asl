@@ -3,7 +3,7 @@ state("PowerWashSimulator") {}
 startup
 {
     Assembly.Load(File.ReadAllBytes("Components/asl-help")).CreateInstance("Basic");
-    Assembly.Load(File.ReadAllBytes("Components/uhara9")).CreateInstance("Main");
+    Assembly.Load(File.ReadAllBytes("Components/uhara10")).CreateInstance("Main");
     vars.Uhara.EnableDebug();
 }
 
@@ -17,6 +17,7 @@ init
     vars.Helper["Completion"] = vars.Helper.Make<int>(Completion.Base, Completion.Offsets);
     vars.Helper["Credits"] = vars.Helper.Make<float>(Credits.Base, Credits.Offsets);
     vars.Helper["Loading"] = vars.Helper.Make<bool>(Loading.Base, Loading.Offsets);
+
 }
 
 update
@@ -46,5 +47,4 @@ split
 isLoading
 {
     return current.Loading;
-
 }
