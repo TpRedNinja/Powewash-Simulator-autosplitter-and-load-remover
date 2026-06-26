@@ -11,10 +11,10 @@ init
 {
     var Instance = vars.Uhara.CreateTool("Unity", "IL2CPP", "Instance");
     var levelcompletion = Instance.Get("FuturLab.PW2:FuturLab.PW2.Telemetry:LevelProgressionSender", "m_currentPercentage");
-    var loadingFloat = Instance.Get("FuturLab.PW2.UI:FuturLab.PW2.UI:LoadingScreenWidget", "m_progress");
+    var loading = Instance.Get("FuturLab.PW2.UI:FuturLab.PW2.UI:LoadingScreen", "m_visible");
 
     vars.Helper["TotalCompletion"] = vars.Helper.Make<int>(levelcompletion.Base, levelcompletion.Offsets);
-    vars.Helper["LoadingFloat"] = vars.Helper.Make<float>(loadingFloat.Base, loadingFloat.Offsets);
+    vars.Helper["Loading"] = vars.Helper.Make<bool>(loading.Base, loading.Offsets);
 
 }
 
@@ -26,7 +26,7 @@ update
 
 start
 {
-    if (current.LoadingFloat == 1 && old.LoadingFloat < 1)
+    if (!current.Loading && old.Loading)
         return true;   
 }
 
@@ -38,7 +38,7 @@ split
 
 isLoading
 {
-    if (current.LoadingFloat < 1 && current.LoadingFloat != 0)
+    if (current.Loading)
         return true;
     else
         return false;
