@@ -21,12 +21,17 @@ startup
 
 init
 {
-
     vars.Helper.TryLoad = (Func<dynamic, bool>)(mono =>
     {
         var GSM = mono["PWS", "GameStateManager", 1];
+
         var GJ = mono["PWS", "GameJob"];
         vars.Helper["CurrentJob"] = GSM.MakeString("s_instance", "m_currentGameJob", GJ["m_uniqueName"]);
+
+        /*var SM = mono["PWS", "ScreenManager"];
+        vars.Helper["LoadingProgress"] = GSM.Make<IntPtr>("s_instance", "m_screenManager", SM["m_currentScreen"]);*/
+        vars.Helper["CurrentlyPlayingJob"] = GSM.Make<bool>("s_instance", "CurrentlyPlayingJob");
+        vars.Helper["GameMode"] = GSM.Make<int>("s_instance", "m_gameMode");
         return true;
     });
     /*var Instance = vars.Uhara.CreateTool("Unity", "IL2CPP", "Instance");
@@ -39,7 +44,7 @@ init
     vars.Helper["Loading"] = vars.Helper.Make<bool>(Loading.Base, Loading.Offsets);
     print("How many offsets: " + Completion.Offsets.Length);
     for(int i = 0; i < Completion.Offsets.Length; i++)
-    {
+    {m
         print("Completion base: " + Loading.Base.ToString("X") + " offsets: " + string.Join(", ", Loading.Offsets));
     }
     */
@@ -49,13 +54,11 @@ update
 {
     //vars.Helper.Update();
     //vars.Helper.MapPointers();
-    if(current.CurrentJob != old.CurrentJob || current.CurrentJob == "")
-        print("current job: " + current.CurrentJob);
 }
 
 start
 {
-    if (!current.Loading && old.Loading)
+    if (!old.CurrentlyPlayingJob && current.CurrentlyPlayingJob)
     {
         return true;
     }
@@ -77,5 +80,5 @@ split
 
 isLoading
 {
-    return current.Loading;
+    return current.Loading || !current.CurrentlyPlayingJob;
 }
